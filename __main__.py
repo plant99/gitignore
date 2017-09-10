@@ -3,12 +3,18 @@ import sys
 
 #setting up the parser
 args = sys.argv
-print args
 args = args[1:len(args)]
-print args
 cwd = os.getcwd()
 
 override = False
+
+if( args[0] == '-h'):
+    print ''
+    print "RUN gitignore <REGEX> <REGEX> .... to write a .gitgnore"
+    print ''
+    print "If a .gitignore exists, append '-o' to the end to overwrite it"
+    print ''
+    sys.exit()
 
 def make_gitignore(args):
     text=''
@@ -27,5 +33,4 @@ else:
     if(args[len(args)-1] == '-o'):
         make_gitignore(args)
     else:
-        print args[len(args)-1]
-        print ".gitignore already exists, add -o flag, in the end to override the previous one"
+        print ".gitignore already exists, add -o flag, in the end to overwrite the previous one"
