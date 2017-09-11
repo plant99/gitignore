@@ -15,22 +15,38 @@ if( args[0] == '-h'):
     print "If a .gitignore exists, append '-o' to the end to overwrite it"
     print ''
     sys.exit()
+#Exit if multiple flags are passed
+count=0
+for arg in args:
+    if(arg[0] == '-'):
+        count+=1
 
-def make_gitignore(args):
+if(count > 1):
+    print "Pass valid parameters!"
+    sys.exit()
+
+def make_gitignore(args, flag):
     text=''
     for arg in args:
-        if(arg != '-o'):
+        if(arg != '-o' and arg != '-a'):
             text += arg +'\n'
 
-    file = open(cwd+'/.gitignore', 'w')
+    if( flag == 'w'):
+        file = open(cwd+'/.gitignore', 'w')
+    else:
+        file = open(cwd+'/.gitignore', 'a')
     file.write(text)
     file.close()
 
 
+
+
 if not os.path.isfile(cwd+'/.gitignore'):
-    make_gitignore(args)
+    make_gitignore(args, 'w')
 else:
-    if(args[len(args)-1] == '-o'):
-        make_gitignore(args)
+    if(args[len(args)-1] == "-o"):
+        make_gitignore(args, 'w')
+    elif(args[len(args)-1] == '-a'):
+        make_gitignore(args, 'a')
     else:
-        print ".gitignore already exists, add -o flag, in the end to overwrite the previous one"
+        print ".gitignore already exists, add -o flag, in the end to overwrite the previous one, -a to append the lines to .gitignore"
